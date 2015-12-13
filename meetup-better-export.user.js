@@ -87,7 +87,7 @@ function updateExportLink() {
 	}
 
 	calLink.target = '_blank';
-	calLink.href = calLink.href.replace(/details=([^&]*)/, 'details=' + euc(desc));
+	calLink.href = calLink.href.replace(/details=([^&]*)/, 'details=' + desc);
 }
 
 window.addEventListener('load', updateExportLink, true);
