@@ -40,28 +40,13 @@ THE SOFTWARE.
 // Util
 var
 	qs = document.querySelector.bind(document),
-	qsa = document.querySelectorAll.bind(document),
 	err = console.error.bind(console),
 	log = console.log.bind(console),
 	euc = encodeURIComponent;
 
-var DEBUG = false;
-function dbg() {
-  if (DEBUG)
-	  console.log.apply(console, arguments);
-
-  return arguments[0];
-}
-
 function qsv(elmStr, parent) {
 	var elm = parent ? parent.querySelector(elmStr) : qs(elmStr);
 	if (!elm) err('(qs) Could not get element -', elmStr);
-	return elm;
-}
-
-function qsav(elmStr, parent) {
-	var elm = parent ? parent.querySelectorAll(elmStr) : qsa(elmStr);
-	if (!elm) err('(qsa) Could not get element -', elmStr);
 	return elm;
 }
 
@@ -105,20 +90,4 @@ function updateExportLink() {
 	calLink.href = calLink.href.replace(/details=([^&]*)/, 'details=' + euc(desc));
 }
 
-function modifyExportLinkWhenLoaded() {
-/*
-	if (!qs('#event_button_bar') || !qs('#event_description') || !qs('[itemprop="startDate"]')) {
-		// not loaded
-		dbg('page not loaded...');
-		setTimeout(modifyExportLinkWhenLoaded, 1000);
-	} else {
-		// loaded
-		dbg('page loaded...adding link');
-		updateExportLink();
-	}
-*/
-		updateExportLink();
-}
-
-
-window.addEventListener('load', modifyExportLinkWhenLoaded, true);
+window.addEventListener('load', updateExportLink, true);
