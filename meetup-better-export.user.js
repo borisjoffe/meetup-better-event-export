@@ -2,7 +2,7 @@
 // @name         Meetup Better Event Exporter
 // @namespace    http://boris.joff3.com
 // @version      0.5
-// @description  Export full description in Meetup events
+// @description  Export full Meetup event description to Google Calendar
 // @author       Boris Joffe
 // @match        http://*.meetup.com/*
 // @match        https://*.meetup.com/*
@@ -87,7 +87,7 @@ function updateExportLink() {
 
 	desc = meetupGroupName + '\n' + location.href + '\n\n' + desc;
 
-	calLink.setAttribute('_target', 'blank');
+	calLink.target = '_blank';
 	calLink.href = calLink.href.replace(/details=([^&]*)/, 'details=' + euc(desc));
 }
 
