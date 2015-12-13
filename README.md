@@ -17,7 +17,7 @@ One of the following:
 
 Known Issues
 -----------
-- Google Calendar limits the size of the description text to 2100 characters
+- Google Calendar limits the size of the description text to 2198 characters
 
 License
 -------

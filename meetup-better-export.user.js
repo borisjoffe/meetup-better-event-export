@@ -72,7 +72,7 @@ function updateExportLink() {
 
 	// Google doesn't allow descriptions over a certain length
 	var ELLIPSIS = '...';
-	var MAX_DESC = 2100 - ELLIPSIS.length;
+	var MAX_DESC = 2198 - ELLIPSIS.length;
 
 	var leadingText = euc(meetupGroupName + '\n' + location.href + '\n\n');
 	var MAX_DESC_WITH_LEADING_TEXT = MAX_DESC - leadingText.length;
