@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Meetup Better Event Exporter
 // @namespace    http://boris.joff3.com
-// @version      0.5
+// @version      1.0
 // @description  Export full Meetup event description to Google Calendar
 // @author       Boris Joffe
 // @match        http://*.meetup.com/*
@@ -85,7 +85,21 @@ function updateExportLink() {
 
 	var meetupGroupName = qsv('meta[property="og:title"]').getAttribute('content');
 
-	desc = meetupGroupName + '\n' + location.href + '\n\n' + desc;
+	// Google doesn't allow descriptions over a certain length
+	var ELLIPSIS = '...';
+	var MAX_DESC = 2100 - ELLIPSIS.length;
+
+	var leadingText = euc(meetupGroupName + '\n' + location.href + '\n\n');
+	var MAX_DESC_WITH_LEADING_TEXT = MAX_DESC - leadingText.length;
+	var leadingTextTruncated = euc('[Details cut off]\n' + location.href + '\n');
+
+	if (euc(desc).length > MAX_DESC_WITH_LEADING_TEXT) {
+		desc = desc.replace(/(\s)\s*/g, '$1'); // condense whitespace
+		desc = leadingTextTruncated + euc(desc);  // inform user about truncation
+		desc = desc.slice(0, MAX_DESC) + ELLIPSIS;
+	} else {
+		desc = leadingText + euc(desc);
+	}
 
 	calLink.target = '_blank';
 	calLink.href = calLink.href.replace(/details=([^&]*)/, 'details=' + euc(desc));
