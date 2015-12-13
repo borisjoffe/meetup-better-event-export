@@ -90,12 +90,14 @@ function updateExportLink() {
 	var DETAILS_MAX_CHARS = FULL_DETAILS_MAX_CHARS - leadingText.length;
 	var ELLIPSIS = '...';
 
+	var isTruncated = false;
 	dbg('original desc length =', euc(desc).length);
 	if (euc(desc).length > DETAILS_MAX_CHARS) {
 		dbg('truncating');
 		desc = desc.replace(/(\s)\s*/g, '$1');    // condense whitespace
 		desc = leadingTextTruncated + euc(desc);  // inform user about truncation
 		desc = desc.slice(0, FULL_DETAILS_MAX_CHARS - ELLIPSIS.length) + ELLIPSIS;
+		isTruncated = true;
 	} else {
 		dbg('not truncating');
 		desc = leadingText + euc(desc);
@@ -109,8 +111,10 @@ function updateExportLink() {
 
 	// show color change to notify user that link changed
 	var lightGreen = 'rgba(0, 255, 0, 0.1)';
-	calLink.parentNode.style.backgroundColor = lightGreen;
-	qsv('#addToCalAction').style.backgroundColor = lightGreen;
+	var lightYellow = 'rgba(255, 255, 0, 0.1)';
+	var linkColor = isTruncated ? lightYellow : lightGreen;
+	calLink.parentNode.style.backgroundColor = linkColor;
+	qsv('#addToCalAction').style.backgroundColor = linkColor;
 }
 
 window.addEventListener('load', updateExportLink, true);

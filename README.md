@@ -5,9 +5,8 @@ Meetup Better Event Exporter
 
 Features
 --------
-- Export full Meetup event text to Google calendar when possible
-- Export link background changes to light green when it's updated
-- TamperMonkey / GreaseMonkey plugin
+- Export the full event description to Google calendar (when possible)
+- Export link background changes to light green when it's updated (or light yellow when it wasn't able to add the full description)
 
 Requires
 --------
