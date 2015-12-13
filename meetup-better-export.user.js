@@ -104,6 +104,7 @@ function updateExportLink() {
 	}
 
 	calLink.href = linkWithoutDetails.replace(/details=/, 'details=' + desc);
+	//calLink.innerHTML += isTruncated ? ' (truncated)' : ' (full)';
 	dbg('desc text len =', desc.length);
 	dbg('full link length =', calLink.href.length);
 
