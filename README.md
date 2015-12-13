@@ -13,7 +13,7 @@ Requires
 One of the following:
 - [TamperMonkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en) with [Chrome](https://www.google.com/chrome/browser/)
 - [GreaseMonkey](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/) with [Firefox](https://www.mozilla.org/firefox)
-- [ViolentMonkey](https://addons.opera.com/en/extensions/details/violent-monkey/) or [TamperMonkey](https://addons.opera.com/en/extensions/details/tampermonkey-beta/?display=en) with [Opera](http://www.opera.com/) - untested
+- [ViolentMonkey](https://addons.opera.com/en/extensions/details/violent-monkey/) / [TamperMonkey](https://addons.opera.com/en/extensions/details/tampermonkey-beta/?display=en) with [Opera](http://www.opera.com/) - untested
 
 Known Issues
 -----------
