@@ -106,6 +106,11 @@ function updateExportLink() {
 	dbg('full link length =', calLink.href.length);
 
 	calLink.target = '_blank';
+
+	// show color change to notify user that link changed
+	var lightGreen = 'rgba(0, 255, 0, 0.1)';
+	calLink.parentNode.style.backgroundColor = lightGreen;
+	qsv('#addToCalAction').style.backgroundColor = lightGreen;
 }
 
 window.addEventListener('load', updateExportLink, true);
