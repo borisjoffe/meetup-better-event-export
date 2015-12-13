@@ -38,6 +38,15 @@ THE SOFTWARE.
 
 
 // Util
+var DEBUG = false;
+function dbg() {
+	if (DEBUG)
+		console.log.apply(console, arguments);
+
+	return arguments[0];
+}
+
+
 var
 	qs = document.querySelector.bind(document),
 	err = console.error.bind(console),
@@ -70,24 +79,33 @@ function updateExportLink() {
 
 	var meetupGroupName = qsv('meta[property="og:title"]').getAttribute('content');
 
-	// Google doesn't allow descriptions over a certain length
-	var ELLIPSIS = '...';
-	var MAX_DESC = 2198 - ELLIPSIS.length;
-
+	// Google? doesn't allow calendar links over a certain length
 	var leadingText = euc(meetupGroupName + '\n' + location.href + '\n\n');
-	var MAX_DESC_WITH_LEADING_TEXT = MAX_DESC - leadingText.length;
 	var leadingTextTruncated = euc('[Details cut off]\n' + location.href + '\n');
+	var linkWithoutDetails = calLink.href.replace(/details=([^&]*)/, 'details=');
 
-	if (euc(desc).length > MAX_DESC_WITH_LEADING_TEXT) {
-		desc = desc.replace(/(\s)\s*/g, '$1'); // condense whitespace
+	// limit seems to be around 2000-3000 chars but may not be a full url limit and seems to vary depending on the Meetup content
+	var FULL_LINK_MAX_CHARS = 2300; //2543;
+	var FULL_DETAILS_MAX_CHARS = FULL_LINK_MAX_CHARS - linkWithoutDetails.length;
+	var DETAILS_MAX_CHARS = FULL_DETAILS_MAX_CHARS - leadingText.length;
+	var ELLIPSIS = '...';
+
+	dbg('original desc length =', euc(desc).length);
+	if (euc(desc).length > DETAILS_MAX_CHARS) {
+		dbg('truncating');
+		desc = desc.replace(/(\s)\s*/g, '$1');    // condense whitespace
 		desc = leadingTextTruncated + euc(desc);  // inform user about truncation
-		desc = desc.slice(0, MAX_DESC) + ELLIPSIS;
+		desc = desc.slice(0, FULL_DETAILS_MAX_CHARS - ELLIPSIS.length) + ELLIPSIS;
 	} else {
+		dbg('not truncating');
 		desc = leadingText + euc(desc);
 	}
 
+	calLink.href = linkWithoutDetails.replace(/details=/, 'details=' + desc);
+	dbg('desc text len =', desc.length);
+	dbg('full link length =', calLink.href.length);
+
 	calLink.target = '_blank';
-	calLink.href = calLink.href.replace(/details=([^&]*)/, 'details=' + desc);
 }
 
 window.addEventListener('load', updateExportLink, true);
