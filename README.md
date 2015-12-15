@@ -17,6 +17,7 @@ One of the following:
 
 Known Issues
 -----------
+- Google Calendar times are displayed in UTC
 
 License
 -------
