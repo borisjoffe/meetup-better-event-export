@@ -89,9 +89,9 @@ function updateExportLink() {
 	}
 
 	var meetupGroupName = qsv('meta[property="og:title"]').getAttribute('content');
-
+	var eventUrl = location.href.substring(0, location.href.indexOf('?'));
+	var leadingText = meetupGroupName + '\n' + eventUrl + '\n\n';
 	var oldUrl = calLink.href;
-	var leadingText = meetupGroupName + '\n' + location.href + '\n\n';
 	var exportUrl = 'https://calendar.google.com/calendar/render?action=TEMPLATE&' + [
 			getProp(oldUrl.match(/text=[^&]*/), '0', 'No title specified'),
 			getProp(oldUrl.match(/dates=[^&]*/), '0', 'No date specified'),
