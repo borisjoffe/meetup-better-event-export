@@ -111,9 +111,9 @@ function updateExportLink() {
 	calLink.target = '_blank';
 
 	// show color change to notify user that link changed
-	var lightGreen = 'rgba(0, 255, 0, 0.1)';
-	var lightYellow = 'rgba(255, 255, 0, 0.1)';
-	var linkColor = isTruncated ? lightYellow : lightGreen;
+	var fullDescColor = 'rgba(0, 255, 255, 0.1)';  // light blue
+	var truncDescColor = 'rgba(255, 255, 0, 0.1)'; // light yellow
+	var linkColor = isTruncated ? truncDescColor : fullDescColor;
 	calLink.parentNode.style.backgroundColor = linkColor;
 	qsv('#addToCalAction').style.backgroundColor = linkColor;
 }
