@@ -5,8 +5,8 @@ Meetup Better Event Exporter
 
 Features
 --------
-- Export the full event description to Google calendar (when possible)
-- Export link background changes to light green when it's updated (or light yellow when it wasn't able to add the full description)
+- Export the full event description to Google calendar
+- Export link background changes to light cyan when the link is updated
 
 Requires
 --------
@@ -17,7 +17,6 @@ One of the following:
 
 Known Issues
 -----------
-- Google Calendar limits the size of the export link to around 2000 characters
 
 License
 -------

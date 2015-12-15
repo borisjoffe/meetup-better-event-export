@@ -8,7 +8,7 @@
 // @match        https://*.meetup.com/*
 // @grant        none
 // ==/UserScript==
-/* jshint -W097 */
+/* jshint -W097, -W041 */
 /* eslint-disable no-console, no-unused-vars */
 'use strict';
 
@@ -59,6 +59,17 @@ function qsv(elmStr, parent) {
 	return elm;
 }
 
+function getProp(obj, path, defaultValue) {
+	path = Array.isArray(path) ? Array.from(path) : path.split('.');
+	var prop = obj;
+
+	while (path.length && obj) {
+		prop = obj[path.shift()];
+	}
+
+	return prop != null ? prop : defaultValue;
+}
+
 function updateExportLink() {
 	log('Event Exporter running');
 
@@ -79,41 +90,23 @@ function updateExportLink() {
 
 	var meetupGroupName = qsv('meta[property="og:title"]').getAttribute('content');
 
-	// Google? doesn't allow calendar links over a certain length
-	var leadingText = euc(meetupGroupName + '\n' + location.href + '\n\n');
-	var leadingTextTruncated = euc('[Details cut off]\n' + location.href + '\n');
-	var linkWithoutDetails = calLink.href.replace(/details=([^&]*)/, 'details=');
+	var oldUrl = calLink.href;
+	var leadingText = meetupGroupName + '\n' + location.href + '\n\n';
+	var exportUrl = 'https://calendar.google.com/calendar/render?action=TEMPLATE&' + [
+			getProp(oldUrl.match(/text=[^&]*/), '0', 'No title specified'),
+			getProp(oldUrl.match(/dates=[^&]*/), '0', 'No date specified'),
+			getProp(oldUrl.match(/location=[^&]*/), '0', 'No location specified'),
+			'details=' + euc(leadingText + desc)
+		].join('&') +
+		'&ctz=UTC';
 
-	// limit seems to be around 2000-3000 chars but may not be a full url limit and seems to vary depending on the Meetup content
-	var FULL_LINK_MAX_CHARS = 2300; //2543;
-	var FULL_DETAILS_MAX_CHARS = FULL_LINK_MAX_CHARS - linkWithoutDetails.length;
-	var DETAILS_MAX_CHARS = FULL_DETAILS_MAX_CHARS - leadingText.length;
-	var ELLIPSIS = '...';
+	dbg('export url len = ', exportUrl.length);
 
-	var isTruncated = false;
-	dbg('original desc length =', euc(desc).length);
-	if (euc(desc).length > DETAILS_MAX_CHARS) {
-		dbg('truncating');
-		desc = desc.replace(/(\s)\s*/g, '$1');    // condense whitespace
-		desc = leadingTextTruncated + euc(desc);  // inform user about truncation
-		desc = desc.slice(0, FULL_DETAILS_MAX_CHARS - ELLIPSIS.length) + ELLIPSIS;
-		isTruncated = true;
-	} else {
-		dbg('not truncating');
-		desc = leadingText + euc(desc);
-	}
-
-	calLink.href = linkWithoutDetails.replace(/details=/, 'details=' + desc);
-	//calLink.innerHTML += isTruncated ? ' (truncated)' : ' (full)';
-	dbg('desc text len =', desc.length);
-	dbg('full link length =', calLink.href.length);
-
+	calLink.href = exportUrl;
 	calLink.target = '_blank';
 
 	// show color change to notify user that link changed
-	var fullDescColor = 'rgba(0, 255, 255, 0.1)';  // light blue
-	var truncDescColor = 'rgba(255, 255, 0, 0.1)'; // light yellow
-	var linkColor = isTruncated ? truncDescColor : fullDescColor;
+	var linkColor = 'rgba(0, 255, 255, 0.1)';
 	calLink.parentNode.style.backgroundColor = linkColor;
 	qsv('#addToCalAction').style.backgroundColor = linkColor;
 }
