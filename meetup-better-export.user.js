@@ -89,15 +89,16 @@ function updateExportLink() {
 	}
 
 	var meetupGroupName = qsv('meta[property="og:title"]').getAttribute('content');
-	var eventUrl = location.href.substring(0, location.href.indexOf('?'));
+	var eventUrl = location.href.substring(0, location.href.indexOf('?')); // trim analytics stuff at end
 	var leadingText = meetupGroupName + '\n' + eventUrl + '\n\n';
 	var oldUrl = calLink.href;
+	var notEmpty = function (s) { return s !== ''; };
 	var exportUrl = 'https://calendar.google.com/calendar/render?action=TEMPLATE&' + [
-			getProp(oldUrl.match(/text=[^&]*/), '0', 'No title specified'),
-			getProp(oldUrl.match(/dates=[^&]*/), '0', 'No date specified'),
-			getProp(oldUrl.match(/location=[^&]*/), '0', 'No location specified'),
+			getProp(oldUrl.match(/text=[^&]*/), '0', ''),
+			getProp(oldUrl.match(/dates=[^&]*/), '0', ''),
+			getProp(oldUrl.match(/location=[^&]*/), '0', ''),
 			'details=' + euc(leadingText + desc)
-		].join('&') +
+		].filter(notEmpty).join('&') +
 		'&ctz=UTC';
 
 	dbg('export url len = ', exportUrl.length);
