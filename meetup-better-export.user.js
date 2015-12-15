@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Meetup Better Event Exporter
 // @namespace    http://boris.joff3.com
-// @version      1.1
+// @version      1.2
 // @description  Export full Meetup event description to Google Calendar
 // @author       Boris Joffe
 // @match        http://*.meetup.com/*
