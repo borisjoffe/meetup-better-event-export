@@ -98,8 +98,7 @@ function updateExportLink() {
 			getProp(oldUrl.match(/dates=[^&]*/), '0', ''),
 			getProp(oldUrl.match(/location=[^&]*/), '0', ''),
 			'details=' + euc(leadingText + desc)
-		].filter(notEmpty).join('&') +
-		'&ctz=UTC';
+		].filter(notEmpty).join('&');
 
 	dbg('export url len = ', exportUrl.length);
 
