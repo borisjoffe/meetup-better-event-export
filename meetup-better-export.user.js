@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Meetup Better Event Exporter
 // @namespace    http://boris.joff3.com
-// @version      1.2.1
+// @version      1.2.2
 // @description  Export full Meetup event description to Google Calendar
 // @author       Boris Joffe
 // @match        http://*.meetup.com/*
@@ -89,7 +89,11 @@ function updateExportLink() {
 	}
 
 	var meetupGroupName = qsv('meta[property="og:title"]').getAttribute('content');
-	var eventUrl = location.href.substring(0, location.href.indexOf('?')); // trim analytics stuff at end
+
+	var indexOfQuestionMark = location.href.indexOf('?');
+	var hasExtraUrlJunk = indexOfQuestionMark !== -1;   // trim analytics stuff at end
+	var eventUrl = hasExtraUrlJunk ? location.href.substring(0, indexOfQuestionMark) : location.href;
+
 	var leadingText = meetupGroupName + '\n' + eventUrl + '\n\n';
 	var oldUrl = calLink.href;
 	dbg('old url is:', oldUrl);
