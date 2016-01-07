@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Meetup Better Event Exporter
 // @namespace    http://boris.joff3.com
-// @version      1.2.2
+// @version      1.2.3
 // @description  Export full Meetup event description to Google Calendar
 // @author       Boris Joffe
 // @match        http://*.meetup.com/*
@@ -113,7 +113,18 @@ function updateExportLink() {
 	// show color change to notify user that link changed
 	var linkColor = 'rgba(0, 255, 255, 0.1)';
 	calLink.parentNode.style.backgroundColor = linkColor;
-	qsv('#addToCalAction').style.backgroundColor = linkColor;
+
+	var exportBtn = qsv('#addToCalAction');
+	exportBtn.style.backgroundColor = linkColor;
+
+	// Add Google Export link at top level
+	var calLinkClone = calLink.cloneNode();
+	calLinkClone.innerHTML = '<span class="calOpt google"></span> Google Export';
+	var li = document.createElement('li');
+	li.className += 'D_dropdown';
+	li.appendChild(calLinkClone);
+	li.style.backgroundColor = linkColor;
+	exportBtn.parentNode.appendChild(li);
 }
 
 window.addEventListener('load', updateExportLink, true);
