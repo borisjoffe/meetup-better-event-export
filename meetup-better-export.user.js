@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Meetup Better Event Exporter
 // @namespace    http://boris.joff3.com
-// @version      1.2.5
+// @version      1.2.6
 // @description  Export full Meetup event description to Google Calendar
 // @author       Boris Joffe
 // @match        http://*.meetup.com/*
@@ -84,6 +84,7 @@ function updateExportLink() {
 		// fallback, HTML encoded entities will appear broken
 		desc = descElm.innerHTML
 		              .replace(/<br>\s*/g, '\n') // fix newlines
+		              .replace(/&nbsp;/g, ' ')
 		              .replace(/<a href="([^"]*)"[^>]*>/g, '[$1] ') // show link urls
 		              .replace(/<[^>]*>/g, '');  // strip html tags
 	}
